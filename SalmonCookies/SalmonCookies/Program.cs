@@ -29,8 +29,19 @@ namespace SalmonCookies
 				});
 			});
 
-		
 
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAnyOriginPolicy", builder =>
+				{
+					builder
+					.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader();
+
+				});
+			}
+		 );
 			var app = builder.Build();
 
 			app.UseSwagger(options =>
@@ -45,6 +56,7 @@ namespace SalmonCookies
 				options.RoutePrefix = ("docs");
 			});
 
+			app.UseCors("AllowAnyOriginPolicy");
 
 
 			app.MapGet("/", context =>
